@@ -46,6 +46,7 @@ EOF
 
 %build
 %{__make} \
+	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags}" \
 	LDFLAGS="%{rpmldflags}" \
 	OPT_AUTOCC=no \
@@ -55,6 +56,7 @@ EOF
 	VAL_PREFIX=%{_prefix} \
 	VAL_SYSCONFDIR=%{_sysconfdir} \
 	VAL_MAIL=%{_localstatedir}/mail \
+	VERBOSE=1 \
 	config
 
 %{__make} build

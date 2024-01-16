@@ -2,7 +2,7 @@
 Summary:	Environment for sending and receiving mail, providing functionality of POSIX mailx
 Name:		s-nail
 Version:	14.9.24
-Release:	1
+Release:	2
 # Everything is ISC except parts coming from the original Heirloom mailx which are BSD
 License:	ISC AND BSD-4-Clause-UC AND BSD-3-Clause AND RSA-MD AND HPND-sell-variant
 URL:		https://www.sdaoden.eu/code.html
@@ -39,6 +39,7 @@ non-interactive scripting capabilities.
 %setup -q
 
 cat <<EOF >>nail.rc
+set mime-force-sendout
 set bsdcompat
 set noemptystart
 set prompt='& '
@@ -62,7 +63,6 @@ EOF
 %{__make} build
 
 %if %{with tests}
-#export OPENSSL_ENABLE_SHA1_SIGNATURES=yes
 %{__make} test
 %endif
 

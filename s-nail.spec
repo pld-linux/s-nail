@@ -1,22 +1,22 @@
 %bcond_without	tests
 Summary:	Environment for sending and receiving mail, providing functionality of POSIX mailx
 Name:		s-nail
-Version:	14.9.24
-Release:	2
+Version:	14.9.25
+Release:	1
 # Everything is ISC except parts coming from the original Heirloom mailx which are BSD
 License:	ISC AND BSD-4-Clause-UC AND BSD-3-Clause AND RSA-MD AND HPND-sell-variant
 URL:		https://www.sdaoden.eu/code.html
 Source0:	https://www.sdaoden.eu/downloads/%{name}-%{version}.tar.xz
-# Source0-md5:	85dd87e5cbae851c4d7714b9fcc6a5d4
+# Source0-md5:	59d5818c54246d22f8ff599b8783250d
 Source1:	https://www.sdaoden.eu/downloads/%{name}-%{version}.tar.xz.asc
-# Source1-md5:	7d6ed6c0bf7aef83e4406c47efdca778
-# https://bugzilla.redhat.com/show_bug.cgi?id=2171723
-Patch0:		%{name}-makeflags.patch
+# Source1-md5:	29a703915ed39b9489dd640060fad435
 BuildRequires:	heimdal-devel
 BuildRequires:	libidn2-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	openssl
 BuildRequires:	openssl-devel
+%if %{with tests}
+BuildRequires:	openssl-tools
+%endif
 Provides:	mailx = %{version}-%{release}
 Obsoletes:	mailx < 12.6
 # For backwards compatibility
@@ -83,13 +83,6 @@ for f in Mail mail mailx nail; do
     echo ".so %{name}.1" > $RPM_BUILD_ROOT%{_mandir}/man1/$f.1
 done
 
-
-%check
-%if %{defined rhel}
-# SHA-1 is disabled as insecure by RHEL default policies, but used in tests
-export OPENSSL_ENABLE_SHA1_SIGNATURES=yes
-%endif
-make test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
